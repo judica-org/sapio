@@ -48,7 +48,7 @@ pub struct MapEffectDB {
     /// # The set of all effects
     /// List of effects to include while compiling.
     #[serde(skip_serializing_if = "BTreeMap::is_empty", default)]
-    effects: BTreeMap<SArc<EffectPath>, BTreeMap<SArc<String>, serde_json::Value>>,
+    pub effects: BTreeMap<SArc<EffectPath>, BTreeMap<SArc<String>, serde_json::Value>>,
     #[serde(skip, default)]
     empty: BTreeMap<SArc<String>, serde_json::Value>,
 }

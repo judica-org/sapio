@@ -11,7 +11,8 @@ use sapio_base::serialization_helpers::SArc;
 use schemars::schema::RootSchema;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use std::sync::Arc;
+use serde_json::Value;
+use std::{sync::Arc, collections::BTreeMap};
 /// Instructions for how to resume a contract compilation at a given point
 #[derive(Serialize, Deserialize, JsonSchema, Clone, Debug, PartialEq)]
 pub struct ContinuationPoint {
@@ -22,6 +23,8 @@ pub struct ContinuationPoint {
     #[serde(serialize_with = "sapio_base::serialization_helpers::serializer")]
     #[serde(deserialize_with = "sapio_base::serialization_helpers::deserializer")]
     pub path: Arc<EffectPath>,
+    /// Metadata for this particular Continuation Point
+    pub simp: BTreeMap<i64, Value>,
 }
 impl ContinuationPoint {
     /// Creates a new continuation
@@ -29,6 +32,7 @@ impl ContinuationPoint {
         ContinuationPoint {
             schema: schema.map(SArc),
             path,
+            simp: Default::default()
         }
     }
 }

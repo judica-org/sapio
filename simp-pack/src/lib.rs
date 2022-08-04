@@ -5,6 +5,7 @@
 //  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 use sapio_base::simp::SIMP;
+use schemars::schema::RootSchema;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 /// A URL to a project for convenience
@@ -39,6 +40,7 @@ use bitcoin::hashes::sha256::Hash as sha256;
 use bitcoin::hashes::sha256::HashEngine as engine;
 use bitcoin::hashes::Hash;
 use bitcoin::hashes::HashEngine;
+use serde_json::Value;
 impl IpfsNFT {
     /// Canonicalized commitment to IpfsNFT data
     pub fn commitment(&self) -> sha256 {
@@ -67,6 +69,40 @@ impl IpfsNFT {
 impl SIMP for IpfsNFT {
     fn get_protocol_number() -> i64 {
         -12345
+    }
+}
+
+#[derive(Serialize, Deserialize, JsonSchema, Clone)]
+pub struct AutoBroadcast {}
+
+impl SIMP for AutoBroadcast {
+    fn get_protocol_number() -> i64 {
+        -0xcafe
+    }
+}
+
+#[derive(Serialize, Deserialize, JsonSchema, Clone, Eq, PartialEq, PartialOrd, Ord)]
+pub struct EventSource(pub String);
+
+#[derive(Serialize, Deserialize, JsonSchema, Clone, Eq, PartialEq, PartialOrd, Ord)]
+pub struct EventKey(pub String);
+
+#[derive(Serialize, Deserialize, JsonSchema, Clone)]
+pub struct EventRecompiler {
+    pub source: EventSource,
+    pub filter: EventKey,
+}
+
+#[derive(Serialize, Deserialize, JsonSchema, Clone)]
+pub struct Event {
+    pub key: EventKey,
+    pub slot: String,
+    pub data: Value,
+}
+
+impl SIMP for EventRecompiler {
+    fn get_protocol_number() -> i64 {
+        -0xbeef
     }
 }
 

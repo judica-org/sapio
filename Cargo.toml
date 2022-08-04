@@ -2,6 +2,7 @@
 members = ["sapio"
           , "sapio-front"
           , "sapio-contrib"
+          , "sapio-litigator"
           , "ctv_emulators"
           , "sapio-base"
           , "cli"
