@@ -36,6 +36,7 @@ impl From<serde_json::Error> for SIMPError {
 
 /// Trait for Sapio Interactive Metadata Protocol Implementors
 pub trait SIMP {
+    fn static_get_protocol_number() -> i64 where Self: Sized;
     /// Get a protocol number, which should be one that is assigned through the
     /// SIMP repo. Proprietary SIMPs can safely use negative numbers.
     fn get_protocol_number(&self) -> i64;
